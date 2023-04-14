@@ -1,9 +1,12 @@
-import React from 'react'
+import React, { useState } from 'react'
 import * as Icon from '@mui/icons-material';
 
 import './App.css'
+import ChatListItem from './components/ChatListItem';
 
 export default () => {
+  const [chatList, setChatList] = useState([{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{}]);
+
   return(
     <div className='app-window'>
       <div className='sidebar'> 
@@ -22,10 +25,17 @@ export default () => {
           </div>
         </header>
         <div className='search'>
-          ...
+          <div className='search--input'>
+            <Icon.Search fontSize='small' style={{color: '#919191'}}/>
+            <input type='search' placeholder='Começar nova conversa...'/>
+          </div>
         </div>
         <div className='chatlist'>
-          ...
+          {chatList.map((item, key)=>(
+            <ChatListItem 
+              key={key}
+            />
+          ))}
         </div>
       </div>
       <div className='contentarea'>
