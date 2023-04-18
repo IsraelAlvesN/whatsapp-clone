@@ -77,3 +77,7 @@ header{
 .chatlist::-webkit-scrollbar-thumb{
   background-color: rgba(0, 0, 0, 0.2);
 }
+
+.contentarea{
+  flex: 1;
+}
