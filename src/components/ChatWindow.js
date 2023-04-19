@@ -19,8 +19,28 @@ const ChatWindow = () => {
                     </div>
                 </div>
             </div>
-            <div className='chatWindow--body'></div>
-            <div className='chatWindow--footer'></div>
+            <div className='chatWindow--body'>
+
+            </div>
+            <div className='chatWindow--footer'>
+                <div className='chatWindow--pre'>
+                    <div className='chatWindow--btn'>
+                        <Icon.EmojiEmotions style={{color: '#919191'}} />
+                    </div>
+                </div>
+                <div className='chatWindow--inputarea'>
+                    <input 
+                        className='chatWindow--input' 
+                        type='text' 
+                        placeholder='Digite uma mensagem'
+                    />
+                </div>
+                <div className='chatWindow--pos'>
+                    <div className='chatWindow--btn'>
+                        <Icon.Send style={{color: '#919191'}} />
+                    </div>
+                </div>
+            </div>
         </div>
     )
 }
