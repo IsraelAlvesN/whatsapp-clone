@@ -1,9 +1,22 @@
 import React, { useState } from 'react'
+import EmojiPicker from 'emoji-picker-react';
 import './ChatWindow.css'
 
 import * as Icon from '@mui/icons-material';
 
 const ChatWindow = () => {
+    const [emojiOpen, setEmojiOpen] = useState(false)
+
+    const handleEmojiClick = () => {
+        
+    }
+    const handleOpenEmoji = () => {
+        setEmojiOpen(true)
+    }
+    const handleCloseEmoji = () => {
+        setEmojiOpen(false)
+    }
+
     return(
         <div className='chatWindow'>
             <div className='chatWindow--header'>
@@ -22,10 +35,31 @@ const ChatWindow = () => {
             <div className='chatWindow--body'>
 
             </div>
+            <div 
+                className='chatWindow--emojiarea' 
+                style={{height: emojiOpen ? '200px' : '0'}}
+                >
+                <EmojiPicker
+                    width="100%"
+                    onEmojiClick={handleEmojiClick}
+                    searchDisabled
+                    skinTonesDisabled
+                />
+            </div>
             <div className='chatWindow--footer'>
                 <div className='chatWindow--pre'>
-                    <div className='chatWindow--btn'>
-                        <Icon.EmojiEmotions style={{color: '#919191'}} />
+                    <div 
+                        className='chatWindow--btn'
+                        onClick={handleCloseEmoji}
+                        style={{width: emojiOpen ? 40: 0}}
+                    >
+                        <Icon.Close style={{color: '#919191'}} />
+                    </div>
+                    <div 
+                        className='chatWindow--btn'
+                        onClick={handleOpenEmoji}
+                    >
+                        <Icon.EmojiEmotions style={{color: emojiOpen ? '#009688' : '#919191'}} />
                     </div>
                 </div>
                 <div className='chatWindow--inputarea'>
