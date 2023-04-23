@@ -5,6 +5,7 @@ import './App.css'
 import ChatListItem from './components/ChatListItem';
 import ChatIntro from './components/ChatIntro';
 import ChatWindow from './components/ChatWindow';
+import NewChat from './components/NewChat';
 
 export default () => {
   const [chatList, setChatList] = useState([
@@ -18,17 +19,28 @@ export default () => {
     avatar: 'https://www.nicepng.com/png/detail/207-2074901_woman-icon-avatar-icon.png',
     name: 'Eu'
   })
+  const [showNewChat, setShowNewChat] = useState(false)
+
+  const handleNewChat = () => {
+    setShowNewChat(true)
+  }
 
   return(
     <div className='app-window'>
       <div className='sidebar'> 
+        <NewChat 
+          chatList={chatList}
+          user={user}
+          show={showNewChat} 
+          setShow={setShowNewChat} 
+        />
         <header>
           <img className='header--avatar' src={user.avatar} alt="" />
           <div className='header--buttons'>
             <div className='header--btn'>
               <Icon.DonutLarge style={{color: '#919191'}}/>
             </div>
-            <div className='header--btn'>
+            <div onClick={handleNewChat} className='header--btn'>
               <Icon.Chat style={{color: '#919191'}}/>
             </div>
             <div className='header--btn'>
