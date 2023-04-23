@@ -13,12 +13,17 @@ export default () => {
     {chatId: 3, title: 'alguem', image: 'https://www.nicepng.com/png/detail/207-2074901_woman-icon-avatar-icon.png'}
   ]);
   const [activeChat, setActiveChat] = useState({})
+  const [user, setUser] = useState({
+    id: 12,
+    avatar: 'https://www.nicepng.com/png/detail/207-2074901_woman-icon-avatar-icon.png',
+    name: 'Eu'
+  })
 
   return(
     <div className='app-window'>
       <div className='sidebar'> 
         <header>
-          <img className='header--avatar' src="https://www.nicepng.com/png/detail/207-2074901_woman-icon-avatar-icon.png" alt="" />
+          <img className='header--avatar' src={user.avatar} alt="" />
           <div className='header--buttons'>
             <div className='header--btn'>
               <Icon.DonutLarge style={{color: '#919191'}}/>
@@ -50,7 +55,9 @@ export default () => {
       </div>
       <div className='contentarea'>
         {activeChat.chatId !== undefined  &&
-          <ChatWindow />
+          <ChatWindow 
+            user={user}
+          />
         }
         {activeChat.chatId === undefined  &&
           <ChatIntro />

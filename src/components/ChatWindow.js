@@ -1,10 +1,13 @@
-import React, { useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import EmojiPicker from 'emoji-picker-react';
 import './ChatWindow.css'
 
 import * as Icon from '@mui/icons-material';
+import MessageItem from './MessageItem';
 
-const ChatWindow = () => {
+const ChatWindow = ({user}) => {
+    const body = useRef()
+
     let recognition = null;
 
     let SpeechRecognition = window.speechRecognition || window.webkitSpeechRecognition;
@@ -16,6 +19,29 @@ const ChatWindow = () => {
     const [emojiOpen, setEmojiOpen] = useState(false)
     const [text, setText] = useState()
     const [listening, setListening] = useState(false)
+    const [list, setList] = useState([
+        {author: 123, body: 'bla bla'},
+        {author: 123, body: 'bla bla'},
+        {author: 12, body: 'bla bla'},
+        {author: 12, body: 'bla bla'},
+        {author: 12, body: 'bla bla'},
+        {author: 123, body: 'bla bla'},
+        {author: 12, body: 'bla bla'},
+        {author: 12, body: 'bla bla'},
+        {author: 12, body: 'bla bla'},
+        {author: 123, body: 'bla bla'},
+        {author: 12, body: 'bla bla'},
+        {author: 12, body: 'bla bla'},
+        {author: 123, body: 'bla bla'},
+        {author: 123, body: 'bla bla'},
+        {author: 123, body: 'bla bla'},
+        {author: 12, body: 'bla bla'},
+        {author: 12, body: 'bla bla'},
+        {author: 12, body: 'bla bla'},
+        {author: 123, body: 'bla bla'},
+        {author: 12, body: 'bla bla'},
+        {author: 12, body: 'bla bla'},
+    ])
 
     const handleEmojiClick = (e, emojiObject) => {
         setText(text + e.emoji)
@@ -45,6 +71,12 @@ const ChatWindow = () => {
         
     }
 
+    useEffect(() => {
+        if(body.current.scrollHeight > body.current.offsetHeight){
+            body.current.scrollTop = body.current.scrollHeight - body.current.offsetHeight
+        }
+    }, [list])
+
     return(
         <div className='chatWindow'>
             <div className='chatWindow--header'>
@@ -60,9 +92,17 @@ const ChatWindow = () => {
                     </div>
                 </div>
             </div>
-            <div className='chatWindow--body'>
 
+            <div ref={body} className='chatWindow--body'>
+                {list.map((item, key) => (
+                    <MessageItem
+                        key={key}
+                        data={item}
+                        user={user}
+                    />
+                ))}
             </div>
+
             <div 
                 className='chatWindow--emojiarea' 
                 style={{height: emojiOpen ? '200px' : '0'}}
