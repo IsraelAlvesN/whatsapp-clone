@@ -49,9 +49,6 @@ export default () => {
         </div>
       </div>
       <div className='contentarea'>
-        {
-          console.log(activeChat)
-        }
         {activeChat.chatId !== undefined  &&
           <ChatWindow />
         }
