@@ -6,6 +6,7 @@ import ChatListItem from './components/ChatListItem';
 import ChatIntro from './components/ChatIntro';
 import ChatWindow from './components/ChatWindow';
 import NewChat from './components/NewChat';
+import Login from './components/Login';
 
 export default () => {
   const [chatList, setChatList] = useState([
@@ -14,15 +15,27 @@ export default () => {
     {chatId: 3, title: 'alguem', image: 'https://www.nicepng.com/png/detail/207-2074901_woman-icon-avatar-icon.png'}
   ]);
   const [activeChat, setActiveChat] = useState({})
-  const [user, setUser] = useState({
-    id: 12,
-    avatar: 'https://www.nicepng.com/png/detail/207-2074901_woman-icon-avatar-icon.png',
-    name: 'Eu'
-  })
+  const [user, setUser] = useState(null)
   const [showNewChat, setShowNewChat] = useState(false)
 
   const handleNewChat = () => {
     setShowNewChat(true)
+  }
+
+  const handleLoginData = async (u) => {
+    let newUser = {
+      id: u.uid,
+      name: u.displayName,
+      avatar: u.photoUrl
+    }
+    setUser(newUser)
+  }
+
+  //se não existe usuário, mostra apenas tela de login
+  if(user === null){
+    return(
+      <Login onReceive={handleLoginData} />
+    )
   }
 
   return(
