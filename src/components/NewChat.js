@@ -1,30 +1,25 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import './NewChat.css'
 
 import * as Icon from '@mui/icons-material';
+import Api from "../Api";
 
 export default ({chatList, user, show, setShow}) => {
-    const [list, setlist] = useState([
-        {
-            id: 123, 
-            avatar: 'https://www.nicepng.com/png/detail/207-2074901_woman-icon-avatar-icon.png',
-            name: 'Eu'
-        },
-        {
-            id: 123, 
-            avatar: 'https://www.nicepng.com/png/detail/207-2074901_woman-icon-avatar-icon.png',
-            name: 'Eu'
-        },
-        {
-            id: 123, 
-            avatar: 'https://www.nicepng.com/png/detail/207-2074901_woman-icon-avatar-icon.png',
-            name: 'Eu'
-        },
-    ])
+    const [list, setlist] = useState()
 
     const handleClose = () => {
         setShow(false)
     }
+
+    useEffect(() => {
+        const getList = async () => {
+            if(user !== null){
+                let results = await Api.getContactList(user.id)
+                setlist(results)
+            }
+        }
+        getList()
+    }, [user])
 
     return(
         <div className="newChat" style={{left: show ? 0 : -415}}>
