@@ -7,6 +7,7 @@ import ChatIntro from './components/ChatIntro';
 import ChatWindow from './components/ChatWindow';
 import NewChat from './components/NewChat';
 import Login from './components/Login';
+import Api from './Api';
 
 export default () => {
   const [chatList, setChatList] = useState([
@@ -28,6 +29,7 @@ export default () => {
       name: u.displayName,
       avatar: u.photoUrl
     }
+    await Api.addUser(newUser)
     setUser(newUser)
   }
 
