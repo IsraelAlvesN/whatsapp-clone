@@ -2,7 +2,6 @@ import firebase from 'firebase/app'
 import 'firebase/firebase-auth'
 import 'firebase/firebase-firestore'
 import firebaseConfig from './firebaseconfig'
-import { collection } from 'firebase/firebase-firestore'
 
 const firebaseApp = firebase.initializeApp(firebaseConfig)
 
@@ -25,7 +24,7 @@ export default {
     getContactList: async (userId) => {
         let list = []
         
-        let results = await db;collection('users').get()
+        let results = await db.collection('users').get()
         results.forEach(result => {
             let data = result.data()
 
@@ -39,5 +38,28 @@ export default {
         })
 
         return list
+    },
+    addNewChat: async (user, otherUser) => {
+        let newChat = await db.collection('chats').add({
+            messages: [],
+            users:[user.id, otherUser.id]
+        })
+
+        db.collection('users').doc(user.id).update({
+            chats: firebase.firestore.FieldValue.arrayUnion({
+                chatId: newChat.id,
+                title: otherUser.name, 
+                image: otherUser.avatar,
+                with: otherUser.id
+            })
+        })
+        db.collection('users').doc(user.id).update({
+            chats: firebase.firestore.FieldValue.arrayUnion({
+                chatId: newChat.id,
+                title: user.name, 
+                image: user.avatar,
+                with: user.id
+            })
+        })
     }
 }

@@ -11,6 +11,10 @@ export default ({chatList, user, show, setShow}) => {
         setShow(false)
     }
 
+    const addNewChat = async (otherUser) => {
+        await Api.addNewChat(user, otherUser)
+    }
+
     useEffect(() => {
         const getList = async () => {
             if(user !== null){
@@ -31,7 +35,7 @@ export default ({chatList, user, show, setShow}) => {
             </div>
             <div className="newChat--list">
                 {list.map((item, key) => (
-                    <div className="newChat--item" key={key}>
+                    <div onClick={() => (item)} className="newChat--item" key={key}>
                         <img className="newChat--itemavatar" src={item.avatar} alt="" />
                         <div className="newChat--itemname">{item.name}</div>
                     </div>
