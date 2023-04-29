@@ -1,21 +1,32 @@
-import React from 'react'
+import React, { useState } from 'react'
 import './ChatListItem.css'
+import { useEffect } from 'react'
 
 const ChatListItem = ({onclick, active, data}) => {
+    const [time, setTime] = useState('')
+
+    useEffect(()=> {
+        if(data.lastMessageDate > 0){
+            let d = new Date(data.lastMessageDate.seconds * 1000)
+            let hours = d.getHours()
+            let minutes = d.getMinutes()
+            hours = hours < 10 ? '0'+hours : hours
+            minutes = minutes < 10 ? '0'+minute : minutes
+            setTime(`${hours}:${minutes}`)
+        }
+    }, [])
+
     return(
         <div className={`chatListItem ${active ? 'active':''}`} onClick={onclick}>
             <img className='chatListItem--avatar' src={data.image} alt='' />
             <div className='chatListItem--lines'>
                 <div className='chatListItem--line'>
                     <div className='chatListItem--name'>{data.title}</div>
-                    <div className='chatListItem--date'>19:00</div>
+                    <div className='chatListItem--date'>{time}</div>
                 </div>
                 <div className='chatListItem--line'>
                     <div className='chatListItem--lastMsg'>
-                        <p>Uma frase qualquer de exemplo 
-                        Uma frase qualquer de exemplo
-                        Uma frase qualquer de exemplo
-                        </p>
+                        <p>{data.lastMessage}</p>
                     </div>
                 </div>
             </div>

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import * as Icon from '@mui/icons-material';
 
 import './App.css'
@@ -18,6 +18,13 @@ export default () => {
     avatar: 'https://www.nicepng.com/png/detail/207-2074901_woman-icon-avatar-icon.png'
   })
   const [showNewChat, setShowNewChat] = useState(false)
+
+  useEffect(() => {
+    if(user !== null){
+      let unsub = Api.onChatList(user.id, setChatList)
+      return unsub
+    }
+  }, [])
 
   const handleNewChat = () => {
     setShowNewChat(true)

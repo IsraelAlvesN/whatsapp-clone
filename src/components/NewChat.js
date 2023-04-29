@@ -13,6 +13,8 @@ export default ({chatList, user, show, setShow}) => {
 
     const addNewChat = async (otherUser) => {
         await Api.addNewChat(user, otherUser)
+
+        handleClose()
     }
 
     useEffect(() => {
