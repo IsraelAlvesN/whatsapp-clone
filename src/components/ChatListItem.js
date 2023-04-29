@@ -14,7 +14,7 @@ const ChatListItem = ({onclick, active, data}) => {
             minutes = minutes < 10 ? '0'+minute : minutes
             setTime(`${hours}:${minutes}`)
         }
-    }, [])
+    }, [data])
 
     return(
         <div className={`chatListItem ${active ? 'active':''}`} onClick={onclick}>

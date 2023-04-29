@@ -12,11 +12,7 @@ import Api from './Api';
 export default () => {
   const [chatList, setChatList] = useState([]);
   const [activeChat, setActiveChat] = useState({})
-  const [user, setUser] = useState({
-    id: 'pqteVkdnuRlA0rW0Cj9P',
-    name: 'Alguem',
-    avatar: 'https://www.nicepng.com/png/detail/207-2074901_woman-icon-avatar-icon.png'
-  })
+  const [user, setUser] = useState(null)
   const [showNewChat, setShowNewChat] = useState(false)
 
   useEffect(() => {

@@ -55,7 +55,7 @@ const ChatWindow = ({user, data}) => {
     }
     const handleSendClick = () => {
         if(text !== ''){
-            Api.sendMessage(data, user.id, 'text', text)
+            Api.sendMessage(data, user.id, 'text', text, users)
             setText('')
             setEmojiOpen(false)
         }
