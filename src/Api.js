@@ -64,12 +64,50 @@ export default {
     },
     onChatList: (userId, setChatList) => {
         return db.collection('users').doc(userId).onSnapshot((doc) => {
-            if(doc.existes){
+            if(doc.exists){
                 let data = doc.data()
                 if(data.chats){
                     setChatList(data.chats)
                 }
             }
         })
+    },
+    onChatContent: (chatId, setList, setUsers) => {
+        return db.collection('chats').doc(chatId).onSnapshot((doc) => {
+            if(doc.exists){
+                let data = doc.data()
+                setList(data.messages)
+                setUsers(data.users)
+            }
+        })
+    },
+    sendMessage: async (chatData, userId, type, body, users) => {
+        let now = new Date()
+
+        db.collection('chats').doc(chatData.chatId).update({
+            messages: firebase.firestore.FieldValue.arrayUnion({
+                type,
+                author: userId,
+                body, 
+                date: now
+            })
+        })
+
+        for(let i in users){
+            let uData = await db.collection('users').doc(users[i]).get()
+            if(uData.chats){
+                let chats = [...uData.chats]
+
+                for(let e in chats){
+                    if(chats[e].chatId == chatData.chatId){
+                        chats[e].lastMessage = body
+                        chats[e].lastMessageDate = now
+                    }
+                }
+                await db.collection('users').doc(users[i]).update({
+                    chats
+                })
+            }
+        }
     }
 }

@@ -4,8 +4,9 @@ import './ChatWindow.css'
 
 import * as Icon from '@mui/icons-material';
 import MessageItem from './MessageItem';
+import Api from '../Api';
 
-const ChatWindow = ({user}) => {
+const ChatWindow = ({user, data}) => {
     const body = useRef()
 
     let recognition = null;
@@ -19,29 +20,8 @@ const ChatWindow = ({user}) => {
     const [emojiOpen, setEmojiOpen] = useState(false)
     const [text, setText] = useState()
     const [listening, setListening] = useState(false)
-    const [list, setList] = useState([
-        {author: 123, body: 'bla bla'},
-        {author: 123, body: 'bla bla'},
-        {author: 12, body: 'bla bla'},
-        {author: 12, body: 'bla bla'},
-        {author: 12, body: 'bla bla'},
-        {author: 123, body: 'bla bla'},
-        {author: 12, body: 'bla bla'},
-        {author: 12, body: 'bla bla'},
-        {author: 12, body: 'bla bla'},
-        {author: 123, body: 'bla bla'},
-        {author: 12, body: 'bla bla'},
-        {author: 12, body: 'bla bla'},
-        {author: 123, body: 'bla bla'},
-        {author: 123, body: 'bla bla'},
-        {author: 123, body: 'bla bla'},
-        {author: 12, body: 'bla bla'},
-        {author: 12, body: 'bla bla'},
-        {author: 12, body: 'bla bla'},
-        {author: 123, body: 'bla bla'},
-        {author: 12, body: 'bla bla'},
-        {author: 12, body: 'bla bla'},
-    ])
+    const [list, setList] = useState([])
+    const [users, setUsers] = useState([])
 
     const handleEmojiClick = (e, emojiObject) => {
         setText(text + e.emoji)
@@ -67,8 +47,18 @@ const ChatWindow = ({user}) => {
             recognition.start()
         }
     }
+
+    const handleInputKeyUp = (e) => {
+        if(e.keyCode == 13){
+            handleSendClick()
+        }
+    }
     const handleSendClick = () => {
-        
+        if(text !== ''){
+            Api.sendMessage(data, user.id, 'text', text)
+            setText('')
+            setEmojiOpen(false)
+        }
     }
 
     useEffect(() => {
@@ -77,12 +67,18 @@ const ChatWindow = ({user}) => {
         }
     }, [list])
 
+    useEffect(() => {
+        setList([])
+        let unsub = Api.onChatContent(data.chatId, setList, setUsers)
+        return unsub
+    }, [data.chatId])
+
     return(
         <div className='chatWindow'>
             <div className='chatWindow--header'>
                 <div className='chatWindow--headerinfo'>
-                    <img className='chatWindow--avatar' src='https://www.nicepng.com/png/detail/207-2074901_woman-icon-avatar-icon.png' alt=''/>
-                    <div className='chatWindow--name'>Algum outro</div>
+                    <img className='chatWindow--avatar' src={data.image} alt=''/>
+                    <div className='chatWindow--name'>{data.title}</div>
                 </div>
                 <div className='chatWindow--headerbuttons'>
                     <div className='chatWindow--btn'>
@@ -137,6 +133,7 @@ const ChatWindow = ({user}) => {
                         placeholder='Digite uma mensagem'
                         value={text}
                         onChange={e => setText(e.target.value)}
+                        onKeyUp={handleInputKeyUp}
                     />
                 </div>
                 <div className='chatWindow--pos'>
